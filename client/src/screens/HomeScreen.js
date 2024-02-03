@@ -1,26 +1,65 @@
-import data from '../data';
-
+import { useEffect, useReducer } from 'react';
+import { Helmet } from 'react-helmet-async';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import axios from 'axios';
+import Product from './components/Product';
+import LoadingBox from './components/LoadingBox';
+import MessageBox from './components/MessageBox';
+//import data from '../data';
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true };
+    case 'FETCH_SUCCESS':
+      return { ...state, products: action.payload, loading: false };
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 function HomeScreen() {
+  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
+    products: [],
+    loading: true,
+    error: '',
+  });
+  //const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch({ type: 'FETCH_REQUEST' });
+      try {
+        const result = await axios.get('/api/products');
+        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+      } catch (err) {
+        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+      }
+
+      //setProducts(result.data);
+    };
+    fetchData();
+  }, []);
   return (
     <div>
+      <Helmet>
+        <title>Tmarket</title>
+      </Helmet>
       <h1>Featured products</h1>
       <div className="products">
-        {data.products.map((product) => (
-          <div className="product" key={product.slug}>
-            <a href={'/product/' + product.slug}>
-              <img src={product.image} alt={product.name} />
-            </a>
-            <div className="product-info">
-              <a href={'/product/' + product.slug}>
-                <p>{product.name}</p>
-              </a>
-              <p>
-                <strong>{product.price} TND</strong>
-              </p>
-              <button>Add to cart</button>
-            </div>
-          </div>
-        ))}
+        {loading ? (
+          <LoadingBox />
+        ) : error ? (
+          <MessageBox variant="danger"> {error} </MessageBox>
+        ) : (
+          <Row>
+            {products.map((product) => (
+              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+                <Product product={product}></Product>
+              </Col>
+            ))}
+          </Row>
+        )}
       </div>
     </div>
   );

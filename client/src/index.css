@@ -5,26 +5,35 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fbfada;
 }
-
-header {
-  background-color: #404040;
-  padding: 1rem;
+.nvb {
+  background-color: #0a1b16;
 }
-header a {
-  color: rgb(255, 255, 255);
+.brnt {
+  color: #fbfada;
   font-weight: bold;
-  text-decoration: none;
+  font-size: xx-large;
+}
+.site-contianer {
+  min-height: 100vh;
 }
 main {
-  padding: 1rem;
+  flex: 1;
+}
+.btn-primary {
+  background-color: #adbc9f;
+  color: #0a1b16;
+  border-color: #0a1b16;
 }
 .products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-
+.rating span {
+  color: #adbc9f;
+}
 .product {
   border: 1px #404040;
   margin: 1rem;
@@ -36,4 +45,8 @@ main {
 
 .product-info {
   padding: 1rem;
+}
+
+.img-large {
+  max-width: 100%;
 }
