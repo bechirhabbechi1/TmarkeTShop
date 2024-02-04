@@ -1,21 +1,37 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
+  users: [
+    {
+      name: 'Bechir',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: true,
+    },
+    {
+      name: 'Bechir',
+      email: 'user@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
-      _id: '1',
+      //_id: '1',
       name: 'Long-sleeved cropped shirt',
       slug: 'Long-sleeved-cropped-shirt',
       category: 'shirt',
       image:
         'https://static.bershka.net/4/photos2/2024/V/0/1/p/6190/494/800/ccc82f525ea07fd2eff370eb4368c6a8-6190494800_2_4_0.jpg?imwidth=850&impolicy=bershka-itxmedium&imformat=chrome',
       price: 89,
-      countInStock: 20,
+      countInStock: 2,
       brand: 'BERSHKA',
       rating: 4.5,
       numReviews: 10,
       description: 'Long-sleeved cropped satin shirt',
     },
     {
-      _id: '2',
+      //_id: '2',
       name: 'Long-sleeved poplin shirt',
       slug: 'Long-sleeved-shirt',
       category: 'shirt',
@@ -29,7 +45,7 @@ const data = {
       description: 'Long-sleeved poplin shirt',
     },
     {
-      _id: '3',
+      //_id: '3',
       name: 'Super baggy jeans',
       slug: 'Super-baggy-jeans',
       category: 'jeans',
@@ -43,7 +59,7 @@ const data = {
       description: 'Super baggy jeans',
     },
     {
-      _id: '4',
+      //_id: '4',
       name: 'Baggy jeans',
       slug: 'Baggy-jeans',
       category: 'jeans',
