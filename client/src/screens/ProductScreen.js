@@ -1,6 +1,8 @@
-import { useEffect, useReducer } from 'react';
+import { useContext, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { getError } from '../Utils';
+import { Store } from '../Store';
 import axios from 'axios';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
@@ -11,7 +13,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/esm/Button';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
-import { getError } from '../Utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,6 +47,22 @@ function ProductScreen() {
     };
     fetchData();
   }, [slug]);
+
+  const { state, dispatch: cxtDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Sorry. Product is out of stock');
+      return;
+    }
+    cxtDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity },
+    });
+  };
   return loading ? (
     <LoadingBox />
   ) : error ? (
@@ -84,13 +101,13 @@ function ProductScreen() {
         <Col md={3}>
           <Card>
             <Card.Body>
-              <ListGroup variant="flush">
+              <ListGroup.Item variant="flush">
                 <Row>
                   <Col>Price:</Col>
                   <Col>${product.price} TND</Col>
                 </Row>
-              </ListGroup>
-              <ListGroup variant="flush">
+              </ListGroup.Item>
+              <ListGroup.Item variant="flush">
                 <Row>
                   <Col>Status:</Col>
                   <Col>
@@ -101,11 +118,13 @@ function ProductScreen() {
                     )}
                   </Col>
                 </Row>
-              </ListGroup>
+              </ListGroup.Item>
               {product.countInStock > 0 && (
                 <ListGroup.Item>
                   <div className="d-grid">
-                    <Button variant="primary">Add to cart</Button>
+                    <Button onClick={addToCartHandler} variant="primary">
+                      Add to cart
+                    </Button>
                   </div>
                 </ListGroup.Item>
               )}

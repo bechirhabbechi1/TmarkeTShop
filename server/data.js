@@ -1,6 +1,7 @@
 const data = {
   products: [
     {
+      _id: '1',
       name: 'Long-sleeved cropped shirt',
       slug: 'Long-sleeved-cropped-shirt',
       category: 'shirt',
@@ -14,6 +15,7 @@ const data = {
       description: 'Long-sleeved cropped satin shirt',
     },
     {
+      _id: '2',
       name: 'Long-sleeved poplin shirt',
       slug: 'Long-sleeved-shirt',
       category: 'shirt',
@@ -27,6 +29,7 @@ const data = {
       description: 'Long-sleeved poplin shirt',
     },
     {
+      _id: '3',
       name: 'Super baggy jeans',
       slug: 'Super-baggy-jeans',
       category: 'jeans',
@@ -40,6 +43,7 @@ const data = {
       description: 'Super baggy jeans',
     },
     {
+      _id: '4',
       name: 'Baggy jeans',
       slug: 'Baggy-jeans',
       category: 'jeans',
