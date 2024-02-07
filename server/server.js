@@ -23,7 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
-
+app.use((req, res) => {
+  res.send('API IS RUNNING');
+});
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
